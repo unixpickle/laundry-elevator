@@ -1,6 +1,10 @@
 package main
 
-import "github.com/unixpickle/model3d/model3d"
+import (
+	"math"
+
+	"github.com/unixpickle/model3d/model3d"
+)
 
 const (
 	SpoolWidth         = 30
@@ -29,9 +33,13 @@ func SpoolSolid() model3d.Solid {
 		P2:     model3d.XYZ(0, SpoolRadiusSmall-TieOffWidth/2, SpoolWidth/2+SpoolSideThickness),
 		Radius: TieOffWidth / 2,
 	}
-	return model3d.Subtract(
-		model3d.JoinedSolid{spoolBody, tieSection},
-		model3d.JoinedSolid{MotorCutout(), HolderCutout()},
+	return model3d.RotateSolid(
+		model3d.Subtract(
+			model3d.JoinedSolid{spoolBody, tieSection},
+			model3d.JoinedSolid{MotorCutout(), HolderCutout()},
+		),
+		model3d.X(1),
+		math.Pi,
 	)
 }
 
