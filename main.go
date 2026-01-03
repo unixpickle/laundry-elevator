@@ -1,39 +1,35 @@
 package main
 
-import "github.com/unixpickle/model3d/model3d"
+import (
+	"log"
+
+	"github.com/unixpickle/model3d/model3d"
+)
 
 const (
-	SpoolDelta  = 0.5
-	BasketDelta = 2.0
-	WheelDelta  = 0.25
+	SpoolDelta           = 0.5
+	BasketDelta          = 2.0
+	WheelDelta           = 0.25
+	MountBoardDelta      = 2.0
+	MountBoardScrewDelta = 0.1
 )
 
 func main() {
-	wheelBracket := model3d.DualContour(WheelBracketSolid(), WheelDelta, true, false)
-	wheelBracket = wheelBracket.EliminateCoplanar(1e-5)
-	wheelBracket.SaveGroupedSTL("wheel_bracket.stl")
+	DumpMesh(MountBoardSolid(), MountBoardDelta, "mount_board.stl")
+	DumpMesh(MountBoardNutSolid(), MountBoardScrewDelta, "mount_board_nut.stl")
+	DumpMesh(MountBoardScrewSolid(), MountBoardScrewDelta, "mount_board_screw.stl")
+	DumpMesh(WheelBracketSolid(), WheelDelta, "wheel_bracket.stl")
+	DumpMesh(WheelBracketScrewSolid(), WheelDelta, "wheel_bracket_screw.stl")
+	DumpMesh(WheelRodSolid(0), WheelDelta, "wheel_rod.stl")
+	DumpMesh(WheelRodScrewNutSolid(), WheelDelta, "wheel_rod_nut.stl")
+	DumpMesh(WheelSolid(), WheelDelta, "wheel.stl")
+	DumpMesh(BasketSolid(), BasketDelta, "basket.stl")
 
-	wheelBracketScrew := model3d.DualContour(WheelBracketScrewSolid(), WheelDelta, true, false)
-	wheelBracketScrew = wheelBracketScrew.EliminateCoplanar(1e-5)
-	wheelBracketScrew.SaveGroupedSTL("wheel_bracket_screw.stl")
+}
 
-	wheelRod := model3d.DualContour(WheelRodSolid(0), WheelDelta, true, false)
-	wheelRod = wheelRod.EliminateCoplanar(1e-5)
-	wheelRod.SaveGroupedSTL("wheel_rod.stl")
-
-	wheelRodNut := model3d.DualContour(WheelRodScrewNutSolid(), WheelDelta, true, false)
-	wheelRodNut = wheelRodNut.EliminateCoplanar(1e-5)
-	wheelRodNut.SaveGroupedSTL("wheel_rod_nut.stl")
-
-	wheel := model3d.DualContour(WheelSolid(), WheelDelta, true, false)
-	wheel = wheel.EliminateCoplanar(1e-5)
-	wheel.SaveGroupedSTL("wheel.stl")
-
-	basket := model3d.DualContour(BasketSolid(), BasketDelta, true, false)
-	basket = basket.EliminateCoplanar(1e-5)
-	basket.SaveGroupedSTL("basket.stl")
-
-	spool := model3d.DualContour(SpoolSolid(), SpoolDelta, true, false)
-	spool = spool.EliminateCoplanar(1e-5)
-	spool.SaveGroupedSTL("spool.stl")
+func DumpMesh(solid model3d.Solid, delta float64, filename string) {
+	log.Printf("Generating %s ...", filename)
+	mesh := model3d.DualContour(solid, delta, true, false)
+	mesh = mesh.EliminateCoplanar(1e-5)
+	mesh.SaveGroupedSTL(filename)
 }
