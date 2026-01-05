@@ -7,7 +7,7 @@ import (
 
 const (
 	MountBoardThickness          = 10.0
-	MountBoardWidth              = 200.0
+	MountBoardWidth              = 220.0
 	MountBoardDepth              = SpoolRadiusLarge*2 + 40.0
 	MountBoardSpoolSlack         = 10.0
 	MountBoardTrackSpace         = 45.0

@@ -12,8 +12,8 @@ const (
 	SpoolRadiusLarge   = 60
 	SpoolSideThickness = 5
 
-	MotorDRadius     = 8.0 / 2
-	MotorDCutoff     = 3.0
+	MotorDRadius     = 8.0/2 + 0.2
+	MotorDCutoff     = 3.0 + 0.2
 	MotorCutoutDepth = 20.0
 
 	HolderRadius      = 10
