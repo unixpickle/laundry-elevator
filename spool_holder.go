@@ -4,13 +4,14 @@ import "github.com/unixpickle/model3d/model3d"
 
 const (
 	SpoolHolderRunway       = 50.0
-	SpoolHolderThickness    = 2.0
+	SpoolHolderThickness    = 3.0
 	SpoolHolderCenterHeight = 29.0
 	SpoolHolderSlack        = 2.0
 	SpoolHolderRailSize     = 6.0
 	SpoolHolderRailMargin   = 5.0
 	SpoolHolderRodJutLength = 1.0
 	SpoolHolderRodLength    = 10.0
+	SpoolHolderSideOffset   = 9.0
 )
 
 func SpoolHolderSolid() model3d.Solid {
@@ -25,13 +26,13 @@ func SpoolHolderSolid() model3d.Solid {
 			model3d.XYZ(SpoolHolderThickness, end, SpoolHolderCenterHeight+HolderRadius+SpoolHolderSlack*2),
 		),
 		&model3d.Cylinder{
-			P1:     model3d.XYZ(SpoolHolderThickness, 0, SpoolHolderCenterHeight),
-			P2:     model3d.XYZ(SpoolHolderThickness+SpoolHolderRodJutLength, 0, SpoolHolderCenterHeight),
+			P1:     model3d.XYZ(SpoolHolderThickness, SpoolHolderSideOffset, SpoolHolderCenterHeight),
+			P2:     model3d.XYZ(SpoolHolderThickness+SpoolHolderRodJutLength, SpoolHolderSideOffset, SpoolHolderCenterHeight),
 			Radius: HolderRadius + SpoolHolderSlack,
 		},
 		&model3d.Cylinder{
-			P1:     model3d.XYZ(SpoolHolderThickness, 0, SpoolHolderCenterHeight),
-			P2:     model3d.XYZ(SpoolHolderThickness+SpoolHolderRodLength, 0, SpoolHolderCenterHeight),
+			P1:     model3d.XYZ(SpoolHolderThickness, SpoolHolderSideOffset, SpoolHolderCenterHeight),
+			P2:     model3d.XYZ(SpoolHolderThickness+SpoolHolderRodLength, SpoolHolderSideOffset, SpoolHolderCenterHeight),
 			Radius: HolderRadius - SpoolHolderSlack,
 		},
 	}

@@ -6,22 +6,22 @@ import (
 )
 
 const (
-	MountBoardThickness          = 10.0
+	MountBoardThickness          = 7.0
 	MountBoardWidth              = 220.0
 	MountBoardDepth              = SpoolRadiusLarge*2 + 40.0
 	MountBoardSpoolSlack         = 10.0
-	MountBoardTrackSpace         = 45.0
+	MountBoardTrackSpace         = 35.0
 	MountBoardTrackSize          = 8.0
 	MountBoardTrackOuterMargin   = 10.0
 	MountBoardTrackInnerMargin   = 4.0
-	MountBoardScrewBaseRadius    = 5.0
+	MountBoardScrewBaseRadius    = 6.0
 	MountBoardScrewBaseThickness = 4.0
 	MountBoardScrewRadius        = 5.0 / 2
 	MountBoardScrewGrooveSize    = 0.7
-	MountBoardScrewLength        = MountBoardThickness + 2.0 + MountBoardNutThickness
+	MountBoardScrewLength        = MountBoardThickness + 3.0 + MountBoardNutThickness
 	MountBoardScrewSlack         = 0.2
 	MountBoardNutThickness       = 4.0
-	MountBoardNutRadius          = 5.0
+	MountBoardNutRadius          = 6.0
 )
 
 func MountBoardSolid() model3d.Solid {

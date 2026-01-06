@@ -9,11 +9,12 @@ const (
 	WheelRadius                  = 15.0
 	WheelThickness               = 10.0
 	WheelRodRadius               = 3.0
+	WheelRodBaseSize             = WheelRodRadius + 5.0
 	WheelRodScrewLength          = 4.0
 	WheelRodScrewRadius          = 3.0
 	WheelRodScrewGrooveSize      = 1.0
 	WheelRodCutoutSlack          = 0.4
-	WheelRodNutRadius            = 4.0
+	WheelRodNutRadius            = 6.0
 	WheelRodNutSlack             = 0.2
 	WheelCutoutSlack             = 0.4
 	WheelSideSlack               = 1
@@ -27,6 +28,7 @@ const (
 	WheelMountScrewShaftLength   = BasketThickness
 	WheelMountScrewRadius        = 3.0
 	WheelMountScrewLength        = WheelRodScrewLength
+	WheelMountScrewSpace         = 0.0
 )
 
 func WheelBracketSolid() model3d.Solid {
@@ -82,7 +84,7 @@ func WheelBracketSolid() model3d.Solid {
 		),
 	)
 
-	rod := WheelRodSolid(0)
+	rod := WheelRodSolid(WheelRodCutoutSlack)
 	sides := model3d.Subtract(model3d.JoinedSolid{leftSide, rightSide}, rod)
 
 	return model3d.JoinedSolid{base, sides}
@@ -90,25 +92,38 @@ func WheelBracketSolid() model3d.Solid {
 
 func WheelRodSolid(outset float64) model3d.Solid {
 	rodZ := WheelSideSlack + WheelRadius
+	r := WheelRodRadius + outset
 	rod := &model3d.Cylinder{
-		P1:     model3d.XYZ(WheelSideThickness/2, 0, rodZ),
+		P1:     model3d.XYZ(0, 0, rodZ),
 		P2:     model3d.XYZ(WheelSideThickness+WheelSideSlack*2+WheelThickness, 0, rodZ),
-		Radius: WheelRodRadius + outset,
+		Radius: r,
 	}
 	squareCutout := model3d.NewRect(
 		model3d.XYZ(
 			WheelSideThickness+WheelSideSlack*2+WheelThickness,
-			-WheelRodRadius,
-			rodZ-WheelRodRadius,
+			-r,
+			rodZ-r,
 		),
 		model3d.XYZ(
 			WheelSideThickness+WheelSideSlack*2+WheelThickness+WheelSideThickness,
-			WheelRodRadius,
-			rodZ+WheelRodRadius,
+			r,
+			rodZ+r,
+		),
+	)
+	base := model3d.NewRect(
+		model3d.XYZ(
+			WheelSideThickness+WheelSideSlack*2+WheelThickness+WheelSideThickness,
+			-WheelRodBaseSize/2,
+			rodZ-WheelRodBaseSize/2,
+		),
+		model3d.XYZ(
+			WheelSideThickness+WheelSideSlack*2+WheelThickness+WheelSideThickness*2,
+			WheelRodBaseSize/2,
+			rodZ+WheelRodBaseSize/2,
 		),
 	)
 	screw := WheelRodScrew()
-	return model3d.JoinedSolid{rod, squareCutout, screw}
+	return model3d.JoinedSolid{rod, squareCutout, base, screw}
 }
 
 func WheelSolid() model3d.Solid {
@@ -139,16 +154,8 @@ func WheelRodScrewNutSolid() model3d.Solid {
 func WheelRodScrew() *toolbox3d.ScrewSolid {
 	rodZ := WheelSideSlack + WheelRadius
 	return &toolbox3d.ScrewSolid{
-		P1: model3d.XYZ(
-			WheelSideThickness+WheelSideSlack*2+WheelThickness+WheelSideThickness,
-			0,
-			rodZ,
-		),
-		P2: model3d.XYZ(
-			WheelSideThickness+WheelSideSlack*2+WheelThickness+WheelSideThickness+WheelRodScrewLength,
-			0,
-			rodZ,
-		),
+		P1:         model3d.XYZ(-WheelRodScrewLength, 0, rodZ),
+		P2:         model3d.XYZ(0, 0, rodZ),
 		Radius:     WheelRodScrewRadius,
 		GrooveSize: WheelRodScrewGrooveSize,
 	}
@@ -165,8 +172,8 @@ func WheelBracketScrewSolid() model3d.Solid {
 			model3d.XYZ(WheelMountScrewShaftSize/2, WheelMountScrewShaftSize/2, WheelMountScrewShaftLength),
 		),
 		model3d.NewRect(
-			model3d.XYZ(-WheelMountCutoutSize/2, -WheelMountCutoutSize/2, 0),
-			model3d.XYZ(WheelMountCutoutSize/2, WheelMountCutoutSize/2, WheelSideThickness),
+			model3d.XYZ(-WheelMountCutoutSize/2+WheelMountScrewSpace, -WheelMountCutoutSize/2+WheelMountScrewSpace, 0),
+			model3d.XYZ(WheelMountCutoutSize/2-WheelMountScrewSpace, WheelMountCutoutSize/2-WheelMountScrewSpace, WheelSideThickness),
 		),
 		&toolbox3d.ScrewSolid{
 			P1:         model3d.Z(0),
