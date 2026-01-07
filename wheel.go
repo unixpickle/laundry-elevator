@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	WheelRadius                  = 15.0
-	WheelThickness               = 10.0
-	WheelRodRadius               = 3.0
+	WheelRadius                  = 25.0
+	WheelThickness               = 15.0
+	WheelRodRadius               = 4.0
 	WheelRodBaseSize             = WheelRodRadius + 5.0
 	WheelRodScrewLength          = 4.0
 	WheelRodScrewRadius          = 3.0
@@ -18,10 +18,10 @@ const (
 	WheelRodNutSlack             = 0.2
 	WheelCutoutSlack             = 0.4
 	WheelSideSlack               = 1
-	WheelSideThickness           = 3.0
+	WheelSideThickness           = 4.0
 	WheelMountDistance           = 15.0
-	WheelMountCutoutSize         = 7.0
-	WheelMountCutoutSide         = 2.0
+	WheelMountCutoutSize         = 8.0
+	WheelMountCutoutSide         = 3.0
 	WheelMountScrewBaseSize      = BasketHoleSize + 4.0
 	WheelMountScrewBaseThickness = BasketThickness
 	WheelMountScrewShaftSize     = BasketHoleSize - 0.2

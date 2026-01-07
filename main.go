@@ -13,9 +13,13 @@ const (
 	MountBoardDelta      = 2.0
 	MountBoardScrewDelta = 0.1
 	SpoolHolderDelta     = 0.5
+	WallMountDelta       = MountBoardDelta
+	WallMountScrewDelta  = MountBoardScrewDelta
 )
 
 func main() {
+	DumpMesh(WallMountSolid(), WallMountDelta, "wall_mount.stl")
+	DumpMesh(WallMountScrewSolid(), WallMountScrewDelta, "wall_mount_screw.stl")
 	DumpMesh(SpoolHolderSolid(), SpoolHolderDelta, "spool_holder.stl")
 	DumpMesh(MountBoardSolid(), MountBoardDelta, "mount_board.stl")
 	DumpMesh(MountBoardNutSolid(), MountBoardScrewDelta, "mount_board_nut.stl")
